@@ -13,3 +13,7 @@ Then
 5. `sudo ufw allow PORT`
 6. `python -m SimpleHTTPServer PORT` # in /opt/hector/share/ , TODO: create Symlinks
 
+for ssl:
+roslaunch rosbridge_server er_rosbridge_websocket.lh  port:=9090 certfile:=/etc/ssl/certs/localcerts/server1.example.com.pem keyfile:=/etc/ssl/certs/localcerts/server1.example.com.key
+
+first we have to move the launch file in the correct dir
