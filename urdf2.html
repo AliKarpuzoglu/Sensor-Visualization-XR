@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 
+  <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
 <script src="https://static.robotwebtools.org/threejs/current/three.min.js"></script>
 <script src="STLLoader.js"></script>
 <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
 <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 <script src="https://static.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
-  <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
 
 <script>
 	var viewer;
@@ -22,7 +22,7 @@
     });
 
     // Create the main viewer.
-     viewer = new ROS3D.Viewer({
+/*     viewer = new ROS3D.Viewer({
       divID : 'urdf',
       width : 800,
       height : 600,
@@ -31,7 +31,7 @@
 
     // Add a grid.
     viewer.addObject(new ROS3D.Grid());
-
+*/
     // Setup a client to listen to TFs.
     var tfClient = new ROSLIB.TFClient({
       ros : ros,
@@ -72,9 +72,10 @@ var robot = scene_elements[scene_elements.length-1] //last element is the robot
 </head>
 
 <body onload="init()">
-  <h1>Simple URDF Example</h1>
-  <div style="display:none;" id="urdf"></div>
   <a-scene   id="main" >
+	  <a-entity vive-controls="hand: left"></a-entity>
+	  <a-entity vive-controls="hand: right"></a-entity>
+
 	      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
   
       <a-plane position="0 0 0" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
