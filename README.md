@@ -12,6 +12,7 @@ Then
 4. `roslaunch rosbridge_server rosbridge_websocket.launch` # connection ROS-JSON
 5. `sudo ufw allow PORT`
 6. `python -m SimpleHTTPServer PORT` # in /opt/hector/share/ , TODO: create Symlinks
+6a. For https run `python shttps.py` 
 
 for ssl:
 
