@@ -25,3 +25,8 @@ for ssl:
 
 ./shhtps.py instead of simplehttpserver
 
+#VERY IMPORTANT STEP
+
+if you want to use the self signed certificates. before opening the simulation, you have to visit https://127.0.0.1:9090 and https://127.0.0.1:8080 - to accept the certificates
+
+Also: you have to go to https://127.0.0.1 and not https://localhost:8080 because of the cross origin stuff
