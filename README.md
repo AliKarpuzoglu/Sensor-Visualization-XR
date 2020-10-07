@@ -19,9 +19,7 @@ for ssl:
 `openssl req -x509 -newkey rsa:4096 -keyout server1.example.com.key -out server1.example.com.pem -days 365 -nodes`  
 
 
-*first we have to move the launch file and certificates in the correct dir *
-
-`roslaunch rosbridge_server er_rosbridge_websocket.launch  port:=9090 certfile:=/etc/ssl/certs/localcerts/server1.example.com.pem keyfile:=/etc/ssl/certs/localcerts/server1.example.com.key`
+*first we have to move the  certificates in the correct dir *
 
 `chmod 777 /etc/ssl/certs/localcerts/server1.example.com.key`
 `chmod 777 /etc/ssl/certs/localcerts/server1.example.com.pem`
@@ -29,10 +27,14 @@ for ssl:
 
 TODO: change permissions to be less permissive
 
+`roslaunch rosbridge_server rosbridge_websocket.launch ssl:=true port:=9090 certfile:=/etc/ssl/certs/localcerts/server1.example.com.pem keyfile:=/etc/ssl/certs/localcerts/server1.example.com.key`
 
-`chhmod +x shttps.py` 
 
-./shhtps.py instead of simplehttpserver
+
+*in /opt/hector/share* 
+`chhmod +x VRRobot/shttps.py` 
+
+then run ./VRRobot/shhtps.py instead of simplehttpserver
 
 #VERY IMPORTANT STEP
 
