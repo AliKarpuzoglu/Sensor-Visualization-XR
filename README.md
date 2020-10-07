@@ -16,10 +16,19 @@ Then
 
 for ssl:
 
-`openssl req -x509 -newkey rsa:4096 -keyout server1.example.com.key -out server1.example.com.pem -days 365 -nodes`
+`openssl req -x509 -newkey rsa:4096 -keyout server1.example.com.key -out server1.example.com.pem -days 365 -nodes`  
+
+
 *first we have to move the launch file in the correct dir*
 
 `roslaunch rosbridge_server er_rosbridge_websocket.launch  port:=9090 certfile:=/etc/ssl/certs/localcerts/server1.example.com.pem keyfile:=/etc/ssl/certs/localcerts/server1.example.com.key`
+
+`chmod 777 /etc/ssl/certs/localcerts/server1.example.com.key`
+`chmod 777 /etc/ssl/certs/localcerts/server1.example.com.pem`
+`chmod 777 /etc/ssl/certs/localcerts`
+
+TODO: change permissions to be less permissive
+
 
 `chhmod +x shttps.py` 
 
