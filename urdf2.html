@@ -19,7 +19,7 @@
   /**
    * Setup all visualization elements when the page is loaded.
    */
-  function init_env() {
+  async function init_env() {
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
       url : 'wss://192.168.2.110:9090'
@@ -43,6 +43,9 @@
       // rootObject : viewer.scene
       rootObject : AFRAME.scenes[0].object3D
     });
+
+    await new Promise(r => setTimeout(r, 2000));
+    
     AFRAME.scenes[0].object3D.add(new ROS3D.Grid());
 
 
