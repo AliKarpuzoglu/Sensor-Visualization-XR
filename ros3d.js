@@ -61601,7 +61601,8 @@ class UrdfClient {
    *   * loader (optional) - the Collada loader to use (e.g., an instance of ROS3D.COLLADA_LOADER)
    */
   constructor(options) {
-    var that = this;
+	var that = this;
+	EventEmitter2.call(this);
     options = options || {};
     var ros = options.ros;
     this.param = options.param || 'robot_description';
@@ -61611,6 +61612,7 @@ class UrdfClient {
     this.tfPrefix = options.tfPrefix || '';
     this.loader = options.loader;
 
+	ROS3D.UrdfClient.prototype.__proto__ = EventEmitter2.prototype;
     // get the URDF value from ROS
     var getParam = new ROSLIB.Param({
       ros : ros,
@@ -61631,7 +61633,8 @@ class UrdfClient {
         loader : that.loader
       });
       that.rootObject.add(that.urdf);
-    });
+	});
+	this.emit('change');
   };
 }
 

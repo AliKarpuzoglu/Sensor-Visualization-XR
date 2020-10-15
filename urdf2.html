@@ -9,22 +9,28 @@
 <!--<script src="https://static.robotwebtools.org/threejs/r89/ColladaLoader.js"></script>
 <script src="https://static.robotwebtools.org/ros3djs/0.18.0/ColladaLoader.js"></script> -->
 <script src="https://aframe.io/releases/1.0.4/aframe.js"></script>
-
-<!-- <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script> -->
+<script src="aframe-teleport-controls.js"></script>
+<script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
 <script src="https://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
 <script src="ros3d.js"></script>
+<script src="https://unpkg.com/aframe-input-mapping-component/dist/aframe-input-mapping-component.min.js"></script>
+
 
 <script>
 	var viewer;
   /**
    * Setup all visualization elements when the page is loaded.
    */
-  function init_env() {
+  async function init_env() {
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
       url : 'wss://192.168.2.110:9090'
     });
+    emitter = new EventEmitter2();
+    emitter.on('change',function(){
+console.log(" hallo")
 
+    })
 
     // Setup a client to listen to TFs.
     var tfClient = new ROSLIB.TFClient({
@@ -43,7 +49,6 @@
       // rootObject : viewer.scene
       rootObject : AFRAME.scenes[0].object3D
     });
-    AFRAME.scenes[0].object3D.add(new ROS3D.Grid());
 
 
     // var pointCloud2 = new ROS3D.PoinCloud2({
@@ -56,9 +61,16 @@
       // var robot = urdfClient.that
       // console.log(urdfClient)
 
+  await new Promise(r=> setTimeout(r,2000));
+  AFRAME.scenes[0].object3D.add(new ROS3D.Grid());
+
  setTimeout(function(){ 
    let scene_elements = AFRAME.scenes[0].object3D.children;
-   scene_elements.forEach(element=>element.lookAt(0,1,0))
+   scene_elements.forEach(element=>{
+   if(element.children.length>4){
+   element.lookAt(0,1,0);
+  }})
+ 
 
  
 // var robot = scene_elements[scene_elements.length-1] //last element is the robot
@@ -75,8 +87,22 @@
 
 <body onload="init_env()">
   <a-scene   id="main" >
-	  <a-entity laser-controls="hand:left"></a-entity>
-	  <a-entity laser-controls="hand:right"></a-entity>
+	  <!-- <a-entity laser-controls="hand:left"></a-entity> -->
+	  <!-- <a-entity laser-controls="hand:right"></a-entity> -->
+    <!-- <a-entity id="floor"
+    rotation="-90 0 0"
+    geometry="primitive: plane; width: 100; height: 100"
+  ></a-entity> -->
+  <a-entity id="rig" position="0 0 0">
+    <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1.3 0"></a-entity>
+    <!-- hand controls abstract 6dof controllers-->
+    <a-entity teleport-controls="cameraRig: #rig"
+              laser-controls="hand: left;">
+    </a-entity>
+    <a-entity teleport-controls="type: line; cameraRig: #rig"
+              laser-controls="hand: right;">                
+    </a-entity>
+  </a-entity>
 
 	      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
   

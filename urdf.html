@@ -16,7 +16,7 @@
   function init() {
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
-      url : 'ws://192.168.2.115:9090'
+      url : 'wss://192.168.2.110:9090'
     });
 
     // Create the main viewer.
@@ -42,7 +42,7 @@
     var urdfClient = new ROS3D.UrdfClient({
       ros : ros,
       tfClient : tfClient,
-      path : 'http://192.168.2.115:8080/',
+      path : 'https://192.168.2.110:8080/',
       rootObject : viewer.scene
     });
  
