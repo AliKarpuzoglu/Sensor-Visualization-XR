@@ -7,9 +7,12 @@
 <script src="STLLoader.js"></script>
 <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
 <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-<script src="https://static.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
+<script src="ros3d.js"></script>
 
 <script>
+
+      // rgb_lut and _floatColor have to be defined beforehand (this optimizes the function)
+ 
   /**
    * Setup all visualization elements when the page is loaded.
    */
@@ -24,8 +27,10 @@
       divID : 'urdf',
       width : 800,
       height : 600,
-      antialias : true
+      antialias : true,
+
     });
+    var rootObjectScene = viewer.scene
 
     // Add a grid.
     viewer.addObject(new ROS3D.Grid());
@@ -35,7 +40,56 @@
       ros : ros,
       angularThres : 0.01,
       transThres : 0.01,
-      rate : 10.0
+      rate : 10.0,
+      fixedFrame: '/world' 
+
+    });
+    this._floatColor = new Float32Array(1);
+    this._rgb_lut = new Float32Array(256);
+        for (var i = 0; i < 256; i++) {
+        this._rgb_lut[i] = i / 255.0
+        }        
+        var that = this;
+    colormapa = function(x) {
+      that._floatColor[0] = x;
+            const intColorArray = new Int32Array(that._floatColor.buffer);
+            const intColor = intColorArray[0];
+
+            return {
+              r: that._rgb_lut[(intColor >> 16) & 0xff],
+              g: that._rgb_lut[(intColor >> 8) & 0xff],
+              b: that._rgb_lut[(intColor) & 0xff],
+              a: 1.0
+            };
+          }
+
+      //Colorized cloud of the rotating laser scanner
+  var cloudClient = new ROS3D.PointCloud2({
+        ros: ros,
+        tfClient: tfClient,
+        topic: '/colored_cloud', 
+        rootObject : rootObjectScene,
+        material: { size: 0.05},
+        colormap:colormapa,
+        max_pts:30000000
+
+
+
+    });
+    // Point cloud of the rotating laser scanner
+    var cloudClientOfLaserScanner = new ROS3D.PointCloud2({
+        ros: ros,
+        tfClient: tfClient,
+        topic: '/scan_matched_points2', 
+        rootObject : rootObjectScene,
+        material: { size: 0.02, color: "rgb(123,45,125)"},
+
+    });
+    //Occupancy grid map used for navigation
+    var gridClient = new ROS3D.OccupancyGridClient({
+      ros : ros,
+      topic: '/map',
+      rootObject : rootObjectScene,
     });
 
     // Setup the URDF client.
