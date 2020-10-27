@@ -61377,7 +61377,6 @@ class PointCloud2 extends THREE$1.Object3D {
       this.points.positions.array[3*i    ] = dv.getFloat32(base+x, littleEndian);
       this.points.positions.array[3*i + 1] = dv.getFloat32(base+y, littleEndian);
       this.points.positions.array[3*i + 2] = dv.getFloat32(base+z, littleEndian);
-
       if(this.points.colors){
           color = this.points.colormap(this.points.getColor(dv,base,littleEndian));
           this.points.colors.array[3*i    ] = color.r;

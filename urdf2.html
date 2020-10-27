@@ -42,7 +42,8 @@
    */
   async function init_env() {
     var rootObjectScene = document.getElementById('robot-element-parent').object3D //  AFRAME.scenes[0].object3D // 
-    rootObjectScene.add(new ROS3D.Grid());
+    var rootObjectNode = document.getElementById('robot-element-parent')
+    // rootObjectScene.add(new ROS3D.Grid());
  
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
@@ -58,32 +59,51 @@
       rate : 10.0,
      fixedFrame: '/world' 
     });
- 
+
+
+//  var node = document.createElement("a-entity");   
+//  node.setAttribute( "position","0 0 0")
+//  rootObjectNode.appendChild(node) 
+//  console.log(node)
+//  console.log  (node.object3D)
   //Colorized cloud of the rotating laser scanner
   var cloudClient = new ROS3D.PointCloud2({
         ros: ros,
         tfClient: tfClient,
         topic: '/colored_cloud', 
-        rootObject : rootObjectScene,
+        rootObject : document.getElementById('one').object3D,
         material: { size: 0.05},
 
     });
+    // node = document.createElement("a-entity");   
+    // node.setAttribute( "position","0 0 0")
+
+//  rootObjectNode.appendChild(node) 
     // Point cloud of the rotating laser scanner
     var cloudClientOfLaserScanner = new ROS3D.PointCloud2({
         ros: ros,
         tfClient: tfClient,
         topic: '/scan_matched_points2', 
-        rootObject : rootObjectScene,
+        rootObject :  document.getElementById('two').object3D,
         material: { size: 0.02, color: "rgb(123,45,125)"},
 
     });
+    // node = document.createElement("a-entity");   
+    // node.setAttribute( "position","0 0 0")
+
+//  rootObjectNode.appendChild(node) 
     //Occupancy grid map used for navigation
     var gridClient = new ROS3D.OccupancyGridClient({
       ros : ros,
       topic: '/map',
-      rootObject : rootObjectScene,
+      rootObject :  document.getElementById('three').object3D,
     });
-    load_urdf(ros, tfClient, rootObjectScene,() => console.log('huzzah, I\'m done!'))
+    // node = document.createElement("a-entity");   
+    // node.setAttribute( "position","0 0 0")
+
+//  rootObjectNode.appendChild(node) 
+
+    load_urdf(ros, tfClient,  document.getElementById('four').object3D,() => console.log('huzzah, I\'m done!'))
 
   
 }
@@ -96,7 +116,7 @@ async function init_env_after_seconds(seconds){
 </script>
 </head>
 
-<body onload="init_env_after_seconds(5 )">
+<body onload="init_env_after_seconds(1)">
   <a-scene  inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"  id="main" >
   <a-entity id="rig" position="0 0 0">
     <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1.3 0"></a-entity>
@@ -108,7 +128,15 @@ async function init_env_after_seconds(seconds){
               laser-controls="hand: right;">                
     </a-entity>
   </a-entity>
-  <a-entity  position="0 0 0" rotation="-90 0 0" id='robot-element-parent'></a-entity>
+  <a-entity  position="0 0 0" rotation="-90 0 0" id='robot-element-parent'>
+    <a-entity  position="0 0 0" id='one'></a-entity>
+    <a-entity  position="0 0 0" id='two'></a-entity>
+    <a-entity  position="0 0 0" id='three'></a-entity>
+    <a-entity  position="0 0 0" id='four'></a-entity>
+
+
+
+  </a-entity>
 
 	      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
   
