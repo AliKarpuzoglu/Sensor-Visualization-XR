@@ -13,22 +13,23 @@
 
 <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
 <script src="https://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
+<script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
 <script src="ros3d.js"></script>
 
-<!-- <script src="https://unpkg.com/aframe-input-mapping-component/dist/aframe-input-mapping-component.min.js"></script>
+<script src="https://unpkg.com/aframe-input-mapping-component/dist/aframe-input-mapping-component.min.js"></script>
 <script src="aframe-teleport-controls.js"></script>
-<script src="common/mappings.js"></script> -->
+<script src="common/mappings.js"></script>
 
 
 <script>
-
+var ip= "192.168.0.8"
  
   async function load_urdf(ros, tfClient, rootObjectScene,_callback){
      // Setup the URDF client.
      var urdfClient = new ROS3D.UrdfClient({
       ros : ros,
       tfClient : tfClient,
-      path : 'https://192.168.2.110:8080/',
+      path : 'https://'+ ip+ ':8080/',
       // rootObject : viewer.scene
       rootObject : rootObjectScene
     });
@@ -47,7 +48,7 @@
  
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
-      url : 'wss://192.168.2.110:9090'
+      url : 'wss://'+ ip+':9090'
     });
 
 
@@ -117,20 +118,18 @@ async function init_env_after_seconds(seconds){
   <a-entity id="rig" position="0 0 0">
     <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1.3 0"></a-entity>
     <!-- hand controls abstract 6dof controllers-->
-    <a-entity teleport-controls="cameraRig: #rig"
+    <a-entity teleport-controls="cameraRig: #rig;
+    startEvents: teleportstart; endEvents: teleportend;
+    "
               laser-controls="hand: left;">
     </a-entity>   
-    <a-entity teleport-controls="type: line; cameraRig: #rig"
+    <a-entity teleport-controls="type: line; cameraRig: #rig;
+    startEvents: teleportstart; endEvents: teleportend;
+    "
               laser-controls="hand: right;">                
     </a-entity>
   </a-entity>
   <a-entity  position="0 0 0" rotation="-90 0 0" id='robot-element-parent'>
-    <a-entity  position="0 0 0" id='one'></a-entity>
-    <a-entity  position="0 0 0" id='two'></a-entity>
-    <a-entity  position="0 0 0" id='three'></a-entity>
-    <a-entity  position="0 0 0" id='four'></a-entity>
-
-
 
   </a-entity>
 
