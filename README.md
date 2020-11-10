@@ -30,3 +30,16 @@ for ssl:
 if you want to use the self signed certificates. before opening the simulation, you have to visit https://127.0.0.1:9090 and https://127.0.0.1:8080 - to accept the certificates
 
 Also: you have to go to https://127.0.0.1 and not https://localhost:8080 because of the cross origin stuff
+
+I'll clean up the readme later this week, to run the whole environment in one line try:
+1. install tmux
+2. 
+
+tmux \
+        new-session "roscore ; read" \; \
+        split-window "sleep 5; rosrun tf2_web_republisher tf2_web_republisher; read" \;\
+        split-window "sleep 5; roslaunch rosbridge_server rosbridge_websocket.launch ssl:=true port:=9090 certfile:=/etc/ssl/certs/localcerts/server1.example.com.pem keyfile:=/etc/ssl/certs/localcerts/server1.example.com.key;read" \;\
+        split-window "cd /opt/hector/share; python VRRobot/shttps.py; read"\;\
+        select-layout even-vertical
+
+3. hector sim or use bagfiles

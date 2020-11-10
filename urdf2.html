@@ -6,23 +6,76 @@
 
 <script src="https://unpkg.com/three@0.119.0/build/three.js"></script>
  <script src="STLLoader.js"></script>
+
 <!--<script src="https://static.robotwebtools.org/threejs/r89/ColladaLoader.js"></script>
 <script src="https://static.robotwebtools.org/ros3djs/0.18.0/ColladaLoader.js"></script> -->
 <script src="https://aframe.io/releases/1.0.4/aframe.js"></script>
 
-<!-- <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script> -->
+<script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
 <script src="https://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
 <script src="ros3d.js"></script>
+<script src="https://unpkg.com/aframe-input-mapping-component/dist/aframe-input-mapping-component.min.js"></script>
+<script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
+
+
+
+<script src="aframe-teleport-controls.js"></script>
+<script src="common/mappings.js"></script>
+
+
 
 <script>
+     function logEvent (event) {
+      var scene = document.querySelector('a-scene');
+
+      var type = event.type;
+      var currentMappingActions = AFRAME.inputActions[AFRAME.currentInputMapping];
+      var text = currentMappingActions[type] ? currentMappingActions[type].label : type;
+
+      console.log(text);
+     }
+  
+
+    let ip = "192.168.0.8"
+
+   function load_urdf(ros, tfClient, rootObjectScene,_callback){
+     // Setup the URDF client.
+     var urdfClient = new ROS3D.UrdfClient({
+      ros : ros,
+      tfClient : tfClient,
+      path : 'https://'+ ip+ ':8080/',
+      // rootObject : viewer.scene
+      rootObject : rootObjectScene
+    });
+    // await new Promise(r => setTimeout(r, 10000));
+    _callback();
+  }
+ 
 	var viewer;
   /**
    * Setup all visualization elements when the page is loaded.
    */
-  function init_env() {
+  async function init_env() {
+
+    var scene = document.querySelector('a-scene');
+  var events = ['dpadleft', 'dpadrightlong', 'dpad', 'logtask1', 'logtask2','m_up', 'logdefault', 'righthand', 'lefthand', 'doubletouch', 'doublepress', 'longpress'];
+  console.log(events)
+    for (var i = 0; i < events.length; i++) {
+      console.log(event)
+
+      scene.addEventListener(events[i], function(event) { 
+        logEvent(event); 
+      });
+    }
+    let ip = "192.168.0.8"
+
+    var rootObjectScene = document.getElementById('robot-element-parent').object3D //  AFRAME.scenes[0].object3D // 
+    var rootObjectNode = document.getElementById('robot-element-parent')
+    // rootObjectScene.add(new ROS3D.Grid());
+ 
     // Connect to ROS.
     var ros = new ROSLIB.Ros({
-      url : 'wss://192.168.2.110:9090'
+      url : 'wss://'+ ip+':9090'
     });
 
 
@@ -35,48 +88,98 @@
      fixedFrame: '/world' 
     });
 
-    // Setup the URDF client.
-    var urdfClient = new ROS3D.UrdfClient({
-      ros : ros,
-      tfClient : tfClient,
-      path : 'https://192.168.2.110:8080/',
-      // rootObject : viewer.scene
-      rootObject : AFRAME.scenes[0].object3D
+
+ var node = document.createElement("a-entity");   
+ rootObjectNode.appendChild(node) 
+ console.log(node)
+ console.log  (node.object3D)
+  //Colorized cloud of the rotating laser scanner
+  var cloudClient = new ROS3D.PointCloud2({
+        ros: ros,
+        tfClient: tfClient,
+        topic: '/colored_cloud', 
+        rootObject : node.object3D,
+        material: { size: 0.05},
+
     });
-    AFRAME.scenes[0].object3D.add(new ROS3D.Grid());
+    node = document.createElement("a-entity");   
 
+ rootObjectNode.appendChild(node) 
+    // Point cloud of the rotating laser scanner
+    var cloudClientOfLaserScanner = new ROS3D.PointCloud2({
+        ros: ros,
+        tfClient: tfClient,
+        topic: '/scan_matched_points2', 
+        rootObject :  node.object3D,
+        material: { size: 0.02, color: "rgb(123,45,125)"},
 
-    // var pointCloud2 = new ROS3D.PoinCloud2({
-    //   ros: ros,
-    //   topic:''
+    });
+    node = document.createElement("a-entity");   
 
-    // })
-    // console.log(urdfClient)
-  // do{
-      // var robot = urdfClient.that
-      // console.log(urdfClient)
+ rootObjectNode.appendChild(node) 
+    //Occupancy grid map used for navigation
+    var gridClient = new ROS3D.OccupancyGridClient({
+      ros : ros,
+      topic: '/map',
+      rootObject :  node.object3D,
+    });
+    node = document.createElement("a-entity");   
 
- setTimeout(function(){ 
-   let scene_elements = AFRAME.scenes[0].object3D.children;
-   scene_elements.forEach(element=>element.lookAt(0,1,0))
+    rootObjectNode.appendChild(node) 
 
- 
-// var robot = scene_elements[scene_elements.length-1] //last element is the robot
-// var grid = scene_elements[scene_elements.length-2] //last element is the robot
+    load_urdf(ros, tfClient, node.object3D,() => console.log('huzzah, I\'m done!'))
 
-//  robot.lookAt(0,1,0); // make it look up
-//  grid.lookAt(0,1,0)
-},4000)
+  
+}
 
-  };
- 
+async function init_env_after_seconds(seconds){
+  await new Promise(r => setTimeout(r, seconds*1000));
+  init_env()
+
+}
 </script>
 </head>
 
-<body onload="init_env()">
-  <a-scene   id="main" >
-	  <a-entity laser-controls="hand:left"></a-entity>
-	  <a-entity laser-controls="hand:right"></a-entity>
+<body onload="init_env_after_seconds(1)">
+  <a-scene  inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"  id="main" >
+
+    <a-gui-flex-container 
+	flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="3.5" height="4.5"
+	position="2 2.5 -4" rotation="0 0 0"
+>
+<a-gui-button 
+		width="2.5" height="0.75"
+		onclick="buttonActionFunction" key-code="32"
+		value="test button"
+		font-family="Arial"
+		margin="0 0 0.05 0"
+	>
+	</a-gui-button>
+</a-gui-flex-container>  
+  <a-entity id="rig" position="0 0 0">
+    <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1.3 0">
+      <a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  design="ring"
+				>
+				</a-gui-cursor>
+    </a-entity>
+    <!-- hand controls abstract 6dof controllers-->
+    <a-entity teleport-controls="cameraRig: #rig;
+    startEvents: teleportstart; endEvents: teleportend;
+    "
+              laser-controls="hand: left;">
+    </a-entity>   
+    <a-entity teleport-controls="type: line; cameraRig: #rig;
+    startEvents: teleportstart; endEvents: teleportend;
+    "
+              laser-controls="hand: right;">                
+    </a-entity>
+  </a-entity>
+  <a-entity  position="0 0 0" rotation="-90 0 0" id='robot-element-parent'>
+
+  </a-entity>
 
 	      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
   
