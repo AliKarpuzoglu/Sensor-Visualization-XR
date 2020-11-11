@@ -42,7 +42,10 @@ var mappings = {
       'trackpaddpadright.longpress': 'dpadrightlong'
     },
     'oculus-touch-controls': {
-      'abutton.down': 'changeTask'
+      'abutton.down': 'teleportstart',
+      'abutton.up': 'teleportend',
+      'xbutton.up': 'openMenu'
+
     },
     'windows-motion-controls': {
       'grip.down': 'changeTask'
@@ -62,6 +65,7 @@ AFRAME.registerInputMappings(mappings);
 var inputActions = {
   task1: {
     openMenu: { label : 'Open Menu'},
+    dpadleft : { label : 'DpadLeft'},
     changeTask: { label: 'Change task' },
     logdefault: { label: 'Test Log' },
     logtask1: { label: 'Test Log Task 1' }, 
@@ -70,7 +74,8 @@ var inputActions = {
     righthand: { label: 'Right hand' }, // the trigger on the back
     longpress: { label: 'Long press' },
     doubletouch: { label: 'Double touch' },
-    doublepress: { label: 'Double press' }
+    doublepress: { label: 'Double press' },
+    dpadrightlong: { label: 'dpadrightlong'}
   },
   controls: {
     openMenu: { label : 'openMenu'},

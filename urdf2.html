@@ -34,6 +34,7 @@
       menugui.setAttribute("visible",open);
 
     }
+
     function logEvent(event) {
       var scene = document.querySelector('a-scene');
 
@@ -72,7 +73,7 @@
       // these are the events of common/mappings.js
       // slowly we should replace them by our events
       // common.js -> inputActions 
-      var events = ['dpadleft', 'dpadrightlong', 'dpad', 'logtask1', 'logtask2', 'openMenu', 'logdefault', 'righthand', 'lefthand', 'doubletouch', 'doublepress', 'longpress'];
+      var events = ['dpadleft', 'dpadrightlong', 'dpad', 'logtask1', 'logtask2', 'logdefault', 'righthand', 'lefthand', 'doubletouch', 'doublepress', 'longpress'];
       console.log(events)
       scene.addEventListener('openMenu',openMenu);
       for (var i = 0; i < events.length; i++) {
@@ -139,17 +140,17 @@
 
       });
 
-      node = document.createElement("a-entity");
-      rootObjectNode.appendChild(node) 
-    // Point cloud of the rotating laser scanner
-    var cloudClientOfLaserScanner = new ROS3D.PointCloud2({
-        ros: ros,
-        tfClient: tfClient,
-        topic: '/scan_matched_points2', 
-        rootObject :  node.object3D,
-        material: { size: 0.02, color: "rgb(123,45,125)"},
+    //   node = document.createElement("a-entity");
+    //   rootObjectNode.appendChild(node) 
+    // // Point cloud of the rotating laser scanner
+    // var cloudClientOfLaserScanner = new ROS3D.PointCloud2({
+    //     ros: ros,
+    //     tfClient: tfClient,
+    //     topic: '/scan_matched_points2', 
+    //     rootObject :  node.object3D,
+    //     material: { size: 0.02, color: "rgb(123,45,125)"},
 
-    });
+    // });
 
       node = document.createElement("a-entity");
       rootObjectNode.appendChild(node)
@@ -159,8 +160,8 @@
         topic: '/map',
         rootObject: node.object3D,
       });
+      
       node = document.createElement("a-entity");
-
       rootObjectNode.appendChild(node)
 
       load_urdf(ros, tfClient, node.object3D, () => console.log('huzzah, I\'m done!'))
