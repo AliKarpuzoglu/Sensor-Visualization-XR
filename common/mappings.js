@@ -1,3 +1,5 @@
+// for info https://aframe.io/docs/1.0.0/components/vive-controls.html#events
+// 
 var mappings = {
   default: {
     'vive-controls': {
@@ -13,19 +15,7 @@ var mappings = {
       'm_up': 'openMenu',
     }
   },
-  paint: {
-    common: {
-      triggerdown: 'paint'
-    },
-  
-    'vive-controls': {
-      menudown: 'toggleMenu'
-    },
-
-    'oculus-touch-controls': {
-      abuttondown: 'toggleMenu'
-    }
-  },
+ 
   mappings: {
     task1: {
     common: {

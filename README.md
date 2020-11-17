@@ -54,3 +54,9 @@ tmux \
         select-layout even-vertical
 
 3. hector sim or use bagfiles
+
+
+
+To record bagfiles:
+1. rosbag record /tf /tf_static /joint_states /colored_cloud /map /smooth_path /trajectory /front_rgbd_cam/depth/color/points /colored_cloud_world
+2. rosrun rqt_robot_steering rqt_robot_steering // drive around
