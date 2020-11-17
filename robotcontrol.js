@@ -100,13 +100,13 @@ async function init_env() {
     });
 
     node = document.createElement("a-entity");
-    rootObjectNode.appendChild(node) 
+    rootObjectNode.appendChild(node)
 
-    markerClient =  new ROS3D.MarkerArrayClient(
+    markerClient = new ROS3D.MarkerArrayClient(
         {
-            ros:ros,
-            topic:'/worldmodel_main/occupied_cells_vis_array',
-            tfClient:tfClient,
+            ros: ros,
+            topic: '/worldmodel_main/occupied_cells_vis_array',
+            tfClient: tfClient,
             rootObject: node.object3D
 
         }
@@ -148,16 +148,40 @@ async function init_env_after_seconds(seconds) {
     init_env()
 
 }
-
-function toggleTopic(click){
+/**
+ * sadly the toggle does not pass any "toggled" flag as far as I can tell, so as of now these things just behave like buttons
+ * We have two options to check for the toggle, one way is to see if the object is visible 
+ * The nicer option would be to check for a subscribeId but we have had issues when using the subscribeId using the occupancymap
+ * @param {} click 
+ */
+function toggleTopic(click) {
     console.log(click)
     topicName = click.target.getAttribute("value")
-    if(topicName.subscribeId){ // it has a subscribeID
+    console.log(used_visualisations[topicName].rosTopic.subscribeId)
+
+    var has_sub_id = used_visualisations[topicName].rosTopic.subscribeId // it has a subscribeID -- Maybe we should check if it's visible instead?
+    var something_is_visible = used_visualisations[topicName].rootObject && used_visualisations[topicName].rootObject.visible
+    || used_visualisations[topicName].points && used_visualisations[topicName].points.rootObject.visible 
+    if ( something_is_visible )  { 
+        if (used_visualisations[topicName].rootObject) { // points object doesnt immediately have the rootObject - TODO: this needs to be adapted whenever we toggle topics
+            used_visualisations[topicName].rootObject.visible = false
+
+        } else {
+            used_visualisations[topicName].points.rootObject.visible = false
+        }
         used_visualisations[topicName].unsubscribe()
-        used_visualisations[topicName].rootObject.visible = false
-    }else{
+        return
+    } else {
+        if (used_visualisations[topicName].rootObject) { // points object doesnt immediately have the rootObject - TODO: this needs to be adapted whenever we toggle topics
+            used_visualisations[topicName].rootObject.visible = true
+
+        } else {
+            used_visualisations[topicName].points.rootObject.visible = true
+
+        }
         used_visualisations[topicName].subscribe()
-        used_visualisations[topicName].rootObject.visible = true
+        console.log("subscribe")
+        return
 
     }
 
