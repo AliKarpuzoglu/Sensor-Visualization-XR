@@ -93,24 +93,26 @@ async function init_env() {
         rootObject: node.object3D,
         material: { size: 0.05 },
         colormap: colormapa,
-        max_pts: 30000000
+        max_pts: 30000000,
+        decay:5
+
 
 
 
     });
 
-    node = document.createElement("a-entity");
-    rootObjectNode.appendChild(node)
+    // node = document.createElement("a-entity");
+    // rootObjectNode.appendChild(node)
 
-    markerClient = new ROS3D.MarkerArrayClient(
-        {
-            ros: ros,
-            topic: '/worldmodel_main/occupied_cells_vis_array',
-            tfClient: tfClient,
-            rootObject: node.object3D
+    // markerClient = new ROS3D.MarkerArrayClient(
+    //     {
+    //         ros: ros,
+    //         topic: '/worldmodel_main/occupied_cells_vis_array',
+    //         tfClient: tfClient,
+    //         rootObject: node.object3D
 
-        }
-    )
+    //     }
+    // )
 
     // // Point cloud of the rotating laser scanner
     // var cloudClientOfLaserScanner = new ROS3D.PointCloud2({
