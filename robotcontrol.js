@@ -188,7 +188,15 @@ function toggleTopic(click) {
 }
 
 //controls
+function teleportToRobot(){
+    scale = rootObjectNode.getAttribute("scale")
+    position = used_visualisations["urdf"].tfClient.frameInfos.arm_base_link.transform.translation //TODO: make configurable
+    position.x *=scale.x
+    position.y *=scale.y
+    position.z *=scale.z
 
+    rig.setAttribute("position",position)
+}
 
 function rescaleaction(click, percent) {
     console.log(percent)
