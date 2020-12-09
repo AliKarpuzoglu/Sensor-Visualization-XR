@@ -89,23 +89,7 @@ async function init_env() {
 
 
         
-    AFRAME.registerComponent('thumbstick-logging',{
-        init: function () {
-          this.el.addEventListener('trackpadmoved', this.logThumbstick);
-        },
-        logThumbstick: function (evt) {
-            if(AFRAME.currentInputMapping==='roboControls') {         
-          controls = [evt.detail.y,0,0,0,0,evt.detail.x]
-          
-          moveRobot(controls)
-          
-          if (evt.detail.y > 0.95) { console.log("DOWN"); }
-          if (evt.detail.y < -0.95) { console.log("UP"); }
-          if (evt.detail.x < -0.95) { console.log("LEFT"); }
-          if (evt.detail.x > 0.95) { console.log("RIGHT"); }
-        }
-            }
-      });
+    
 
 
     scene.addEventListener('changeMode',changeMode)

@@ -29,7 +29,26 @@
 
 
   <script>
-
+AFRAME.registerComponent('thumbstick-logging',{
+        init: function () {
+          this.el.addEventListener('trackpadmoved', this.logThumbstick);
+          console.log(this)
+          console.log("inited")
+        },
+        logThumbstick: function (evt) {
+            console.log(AFRAME.currentInputMapping)
+            if(AFRAME.currentInputMapping==='roboControls') {         
+                 controls = [evt.detail.y,0,0,0,0,evt.detail.x]
+          
+                moveRobot(controls)
+          
+                if (evt.detail.y > 0.95) { console.log("DOWN"); }
+                if (evt.detail.y < -0.95) { console.log("UP"); }
+                if (evt.detail.x < -0.95) { console.log("LEFT"); }
+                if (evt.detail.x > 0.95) { console.log("RIGHT"); }
+                }
+            }
+      });
   </script>
 </head>
 
