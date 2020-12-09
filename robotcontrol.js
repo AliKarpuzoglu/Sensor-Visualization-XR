@@ -7,7 +7,7 @@
 var menuOpen = false;
 var rootObjectNode // the Aframe node to which we will add children nodes to add visualizations to
 // we need to add child nodes for the visualization because otherwise some things will only be partially loaded
-let ip = "192.168.0.8" 
+let ip = "192.168.0.73" 
 let used_visualisations = {} // a dictionary for which visualizations we use
 let used_controls  = {} // a dictionary for the controls we use with the robot
 
@@ -134,7 +134,7 @@ async function init_env() {
 
     var node = document.createElement("a-entity");
     rootObjectNode.appendChild(node)
-    var cloudClient = getCloudClient(ros,tfClient,'/colored_cloud',node.object3D,5)
+    var cloudClient = getCloudClient(ros,tfClient,'/colored_cloud_world',node.object3D,5)
 
 
     // node = document.createElement("a-entity");

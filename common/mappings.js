@@ -27,6 +27,7 @@ var mappings = {
     'oculus-touch-controls': {
       'abutton.down': 'teleportstart',
       'abutton.up': 'teleportend',
+      'bbutton.down' : 'changeMode',
       'xbutton.up': 'openMenu',
         'grip.down': 'rescalegrip',
       'grip.up': 'endrescalegrip',
@@ -61,8 +62,9 @@ var mappings = {
     'oculus-touch-controls': {
       'abutton.down': 'teleportstart',
       'abutton.up': 'teleportend',
+      'bbutton.down' : 'changeMode',
       'xbutton.up': 'openMenu',
-        'grip.down': 'rescalegrip',
+      'grip.down': 'rescalegrip',
       'grip.up': 'endrescalegrip',
 
     },
