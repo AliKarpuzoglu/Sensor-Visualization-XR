@@ -14,7 +14,6 @@ var mappings = {
     'vive-controls': {
       'grip.down': 'rescalegrip',
       'grip.up': 'endrescalegrip',
-
       'menu.down': { right:  'changeMode'},
       'trackpad.up': 'teleportend',
       'trackpad.down': 'teleportstart',
@@ -55,6 +54,7 @@ var mappings = {
       'trackpad.down': 'teleportstart',
       'trackpad.doubletouch': 'openMenu',
       'trackpad.doublepress': 'doublepress',
+      'trackpadmoved' : 'moveRobo',
       // Activators for down, up, touchstart and touchend are optionals you can just write the event without the .
       'trackpaddpadleftdown': 'dpadleft',
       'trackpaddpadright.longpress': 'dpadrightlong'
@@ -66,6 +66,7 @@ var mappings = {
       'xbutton.up': 'openMenu',
       'grip.down': 'rescalegrip',
       'grip.up': 'endrescalegrip',
+      'thumbstickchanged':'moveRobo'
 
     },
     keyboard: {
@@ -116,6 +117,7 @@ var inputActions = {
     turnLeft:{ params: [0,0,0,0,0,0.25]},
     turnRight:{ params: [0,0,0,0,0,-0.25]},
     stopRobot: {params : [0,0,0,0,0,0]},
+    moveRobo:{ params: 'keine'},
     changeMode: { currentMode: 'roboControls' },
     logtask1: { label: 'Test Log RoboMode' }, 
     rescalegrip : { start: 'no parameter needed?'},
