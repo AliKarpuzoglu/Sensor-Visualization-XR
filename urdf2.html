@@ -24,6 +24,7 @@
   <script src="common/mappings.js"></script>
   <script src="robotcontrol.js"></script>
   <script src="robotcontrol-debug.js"></script>
+  <script src="common/aframe-controls.js"></script>
 
 
 
@@ -33,7 +34,7 @@
 </head>
 
 <body onload="init_env_after_seconds(1)">
-  <a-scene inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"
+  <a-scene inspector
     id="main">
 
 
@@ -73,13 +74,21 @@
 
       </a-entity>
       <!-- hand controls abstract 6dof controllers-->
-      <a-entity thumbstick-logging teleport-controls="cameraRig: #rig;
-    startEvents: teleportstart; endEvents: teleportend;
+      <a-entity thumbstick-logging id="leftHand" teleport-controls="cameraRig: #rig;
+    startEvents: teleportstart; endEvents: teleportend; 
     " raycaster="objects: [gui-interactable]" laser-controls="hand: left;">
       </a-entity>
-      <a-entity thumbstick-logging teleport-controls="type: line; cameraRig: #rig;
+
+      <!-- right hand contains our indicator for the mode -->
+      <a-entity id="rightHand" teleport-controls="type: line; cameraRig: #rig;
     startEvents: teleportstart; endEvents: teleportend;
     " raycaster="objects: [gui-interactable]" laser-controls="hand: right;">
+    <a-entity id="mode-text" scale="1 1 1" position="0.3 0 0.1"  text="color:#FF0000; zOffset:-0.178; xOffset:0.08; value: Hello World;"></a-entity>
+
+    <a-box  position="0 0 0" scale="0.01 0.01 0.01" color="#FF0000" id="mode-indicator">'
+
+
+    </a-box>
       </a-entity>
     </a-entity>
     <a-entity position="0 0 0" rotation="-90 0 0" id='robot-element-parent'>
