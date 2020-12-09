@@ -1,4 +1,5 @@
 var end = false
+var lastScale = 1
 
 function distanceBetweenLeftAndRight(){
     var righthand = document.getElementById("rightHand");
@@ -18,7 +19,7 @@ async function rescalegrip(){
         var newdistance = distanceBetweenLeftAndRight()
         console.log(newdistance)
         await new Promise(r => setTimeout(r, 10)); // "sleep"for x ms
-        newscale = ((newdistance-initialdistance)/initialdistance)+1
+        newscale = (newdistance/initialdistance) * lastScale
         rescaleaction(null,newscale)
         i++;
         if (i== 1000){
@@ -27,6 +28,8 @@ async function rescalegrip(){
         }
 
     }
+    lastScale = newscale
+
 }
 
 function endrescalegrip(){
