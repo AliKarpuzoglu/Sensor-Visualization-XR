@@ -29,30 +29,34 @@ function generateMenuOfVisualizations(){
     container.setAttribute("height", "4.5")
     container.setAttribute("position","0 5 -3") 
     container.setAttribute("rotation","0 0 0")
+    console.log("container done")
 
     var button = document.createElement("a-gui-button") 
     
     button.setAttribute("width","2.5")
     button.setAttribute("height","0.75") 
     button.setAttribute("onclick","teleportToRobot" )
-    button.setAttribute("key=code","32") 
+    button.setAttribute("key-code","32") 
     button.setAttribute("value","teleport to robot") 
     button.setAttribute("margin","0 0 0.05 0")
-    button.setAttribute("toggle","true" )
     container.appendChild(button)
 
     // for each visualization in used_visualizations
     // create a gui toggle
     for ( visualization in used_visualisations){
-      
-    var toggle = document.createElement("a-gui-toggle") 
-    toggle.setAttribute("width","2.5") 
-    toggle.setAttribute("height","0.75") 
-    toggle.setAttribute("onclick","toggleTopic" )
-    toggle.setAttribute("value", visualization)
-    toggle.setAttribute("margin","0 0 0.05 0")
-    // toggle.setAttribute("checked",true or false  depending on whether it's on by default)
-    container.appendChild(toggle)
+        console.log(visualization)
+         // check if the property/key is defined in the object itself, not in parent
+        if (used_visualisations.hasOwnProperty(visualization)) {  
+            var toggle = document.createElement("a-gui-toggle") 
+            toggle.setAttribute("width","2.5") 
+            toggle.setAttribute("height","0.75") 
+            toggle.setAttribute("onclick","toggleTopic" )
+            toggle.setAttribute("value", visualization)
+            toggle.setAttribute("margin","0 0 0.05 0")
+            toggle.setAttribute("toggle",true )
+            toggle.setAttribute("checked",true)// or false  depending on whether it's on by default)
+            container.appendChild(toggle)
+        }
     }
     // <a-gui-toggle width="2.5" height="0.75" onclick="toggleTopic" value="cloudClient" margin="0 0 0.05 0">
     // </a-gui-toggle>
@@ -63,7 +67,12 @@ function generateMenuOfVisualizations(){
     // <!-- <a-gui-toggle width="2.5" height="0.75" onclick="toggleTopic" value="urdf" margin="0 0 0.05 0">
     // </a-gui-toggle> -->
 
+    return container
 }
+/**
+ * this reads a json config to add ros3djs functions 
+ * @param {} json 
+ */
 function addall(json){
 
 
@@ -98,8 +107,13 @@ function addVisualization(rootNode,name,type,options){
 function toggleTopic(click) {
     console.log(click)
     topicName = click.target.getAttribute("value")
-    console.log(used_visualisations[topicName].rosTopic.subscribeId)
+    // console.log(used_visualisations[topicName].rosTopic.subscribeId)
 
+    var hasTopic = used_visualisations[topicName].rosTopic
+    if (!hasTopic){
+        used_visualisations[topicName].rootObject.visible = !used_visualisations[topicName].rootObject.visible
+        return;
+    }
     var has_sub_id = used_visualisations[topicName].rosTopic.subscribeId // it has a subscribeID -- Maybe we should check if it's visible instead?
     var something_is_visible = used_visualisations[topicName].rootObject && used_visualisations[topicName].rootObject.visible
     || used_visualisations[topicName].points && used_visualisations[topicName].points.rootObject.visible 
