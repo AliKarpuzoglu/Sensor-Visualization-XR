@@ -218,6 +218,23 @@ function openMenu() {
     menuOpen = !menuOpen
 
     var menugui = document.getElementById('menu-gui')
+    
+    position = document.getElementById("camera").object3D.getWorldPosition()
+    position.x -= document.getElementById("camera").object3D.getWorldDirection().x * 4
+    position.z -= document.getElementById("camera").object3D.getWorldDirection().z * 4
+    position.y = document.getElementById("camera").object3D.getWorldPosition().y 
+    console.log(position)
+    menugui.object3D.position = position
+    var menuguirotation = new THREE.Vector3( );
+
+    menuguirotation.copy(menugui.object3D.rotation)
+    menugui.setAttribute('position',position)
+
+    menugui.object3D.lookAt(document.getElementById('rig').object3D.position)
+    // menugui.object3D.rotation.x = menuguirotation.x;
+    // menugui.object3D.rotation.z = menuguirotation.z;
+
+    console.log(menugui.object3D.position)
     menugui.setAttribute("visible", menuOpen);
 
 }

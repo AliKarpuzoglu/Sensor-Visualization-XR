@@ -66,12 +66,12 @@
       <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1.3 0">
 
         <!-- remove this cursor when not debugging without vr -->
-        <a-gui-cursor id="cursor"
+        <!-- <a-gui-cursor id="cursor"
         raycaster="objects: [gui-interactable]"
         fuse="true" fuse-timeout="2000"
         design="ring"
   >
-  </a-gui-cursor>
+  </a-gui-cursor> -->
 
       </a-entity>
       <!-- hand controls abstract 6dof controllers-->
@@ -84,7 +84,8 @@
       <a-entity id="rightHand" teleport-controls="type: line; cameraRig: #rig;
     startEvents: teleportstart; endEvents: teleportend;
     " raycaster="objects: [gui-interactable]" laser-controls="hand: right;">
-    <a-entity id="mode-text" scale="1 1 1" position="0.3 0 0.1"  text="color:#FF0000; zOffset:-0.178; xOffset:0.08; value: Hello World;"></a-entity>
+    <a-entity id="mode-text" scale="1 1 1" position="0.3 0 0.1"  text="color:#FF0000; zOffset:-0.178; xOffset:0.08; value: default;"></a-entity>
+    
 
     <a-box  position="0 0 0" scale="0.01 0.01 0.01" color="#FF0000" id="mode-indicator">'
 
