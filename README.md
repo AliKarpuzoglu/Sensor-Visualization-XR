@@ -8,12 +8,12 @@ To run this example
 1. install ROS (everything here was tested using our Jasmine setup) found [here](https://redmine.sim.informatik.tu-darmstadt.de/projects/hector/wiki/Hector_standard_software_install)
 1. create an ssl keypair:
 
-    ```
+    ```shell
     openssl req -x509 -newkey rsa:4096 -keyout server1.example.com.key -out server1.example.com.pem -days 365 -nodes
     ```
     + **remember the path to these files or move them to /etc/ssl/certs/localcerts/**
     + to move the files use
-    ```console
+    ```shell
     mv server1.example.com.key /etc/ssl/certs/localcerts/server1.example.com.key
     mv server1.example.com.pem /etc/ssl/certs/localcerts/server1.example.com.pem
     ```
@@ -29,7 +29,7 @@ To run this example
 
 1. Create a symlink from opt/hector/share/VRRobot to your cloned repository 
     + note this is a very specific step for this project. It's needed because our URDF are being returned with the python server with simple get requests
-    ```
+    ```shell
     ln -s ~/VRRobot /opt/hector/share/VRRobot
     ```
 1. Allow connections to your firewall
