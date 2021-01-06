@@ -20,11 +20,12 @@ async function rescalegrip(){
         console.log(newdistance)
         await new Promise(r => setTimeout(r, 10)); // "sleep"for x ms
         newscale = (newdistance/initialdistance) * lastScale
+        console.log(newscale)
         rescaleaction(null,newscale)
         i++;
         if (i== 1000){
             end = true;
-            console.log("i=100")
+            console.log("i=1000 the scaling is being stopped. This is a failsafe incase the end of the scaling has not been caught")
         }
 
     }

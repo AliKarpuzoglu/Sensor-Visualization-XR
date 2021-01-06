@@ -58,7 +58,7 @@ async function init_env_2(){
         name : '/cmd_vel',
         messageType : 'geometry_msgs/Twist'
       });
-      cloudClient = addVisualization(rootObjectNode,'cloudClient', ROS3D.PointCloud2,{
+    var  cloudClient = addVisualization(rootObjectNode,'cloudClient', ROS3D.PointCloud2,{
         ros: ros,
         tfClient: tfClient,
         topic: '/colored_cloud',
@@ -66,7 +66,7 @@ async function init_env_2(){
         colormap: colormap,
         max_pts: 30000000,
         decay:5
-      });
+      })
 
 
       var menu = generateMenuOfVisualizations();

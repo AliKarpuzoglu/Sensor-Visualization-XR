@@ -13,6 +13,7 @@ let used_controls  = {} // a dictionary for the controls we use with the robot
 
 
 
+
 function generateMenuOfVisualizations(){
 
     var container = document.createElement("a-gui-flex-container")
@@ -82,7 +83,9 @@ function addControls(name,type,options){
     used_controls[name] = controls
     return controls
 }
-function addVisualization(rootNode,name,type,options){
+
+function addVisualization(rootNode,name,type,options,enabled=true){
+    if(enabled){
     node = document.createElement("a-entity");
     rootNode.appendChild(node)
     options.rootObject = node.object3D
@@ -90,6 +93,7 @@ function addVisualization(rootNode,name,type,options){
     visualization = new type(options)
     used_visualisations[name]= visualization
     return visualization
+    }
 
 
 }
@@ -151,8 +155,7 @@ function toggleTopic(click) {
  */
 function rescaleaction(click, percent) {
     console.log(percent)
-    value_of_scale = percent * 2 + 0.1
-    scale_string = value_of_scale + " " + value_of_scale + " " + value_of_scale
+    scale_string = percent + " " + percent + " " + percent
     rootObjectNode.setAttribute("scale", scale_string)
 
 }
