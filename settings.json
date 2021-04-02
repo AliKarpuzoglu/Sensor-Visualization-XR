@@ -1,0 +1,14 @@
+[
+    'tfclient': 
+    {
+        'functionName':ROSLIB.TFClient,
+    defaultOn: false,
+    options: {
+        ros: ros,
+        angularThres: 0.01,
+        transThres: 0.01,
+        rate: 10.0,
+        fixedFrame: '/world'
+    }
+    }
+]
