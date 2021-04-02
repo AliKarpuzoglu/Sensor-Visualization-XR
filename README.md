@@ -1,5 +1,6 @@
-# Robot Control using WebVR (Think of a name)
+# Robot Control using WebVR
 This is a JavaScript library for robotics using WebXR.
+
 
 ## Installation
 
